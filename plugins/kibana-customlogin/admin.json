@@ -1,0 +1,12 @@
+{
+    "madhan": {
+        "uid": "madhan",
+        "password": "6c237681e70921603a306be9a1a5d9833fce5c1e268f52b1650970eaad0dce21",
+        "groups": [
+            "default"
+        ],
+        "secret": {
+            "verified": false
+        }
+    }
+}

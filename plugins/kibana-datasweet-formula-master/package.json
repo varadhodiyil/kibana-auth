@@ -1,0 +1,57 @@
+{
+  "name": "datasweet_formula",
+  "version": "2.2.1",
+  "description": "This Kibana plugin allows calculated metrics on any standard kibana visualizations.",
+  "main": "index.js",
+  "kibana": {
+    "version": "kibana"
+  },
+  "scripts": {
+    "preinstall": "node ../../preinstall_check",
+    "kbn": "node ../../scripts/kbn",
+    "lint": "eslint **/*.js",
+    "start": "plugin-helpers start",
+    "test:server": "plugin-helpers test:server",
+    "test:browser": "plugin-helpers test:browser",
+    "build": "plugin-helpers build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://tcharlot-datasweet@github.com/datasweet-fr/kibana-datasweet-formula.git"
+  },
+  "keywords": [
+    "datasweet",
+    "kibana",
+    "plugin",
+    "formula",
+    "calculated",
+    "scripted",
+    "metric",
+    "ratio"
+  ],
+  "author": "Thomas Charlot <thomas.charlot@datasweet.fr>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/datasweet-fr/kibana-datasweet-formula/issues"
+  },
+  "homepage": "https://github.com/datasweet-fr/kibana-datasweet-formula#readme",
+  "devDependencies": {
+    "@elastic/eslint-config-kibana": "link:../../packages/eslint-config-kibana",
+    "@elastic/eslint-import-resolver-kibana": "link:../../packages/kbn-eslint-import-resolver-kibana",
+    "@kbn/plugin-helpers": "link:../../packages/kbn-plugin-helpers",
+    "babel-eslint": "6.0.0",
+    "eslint": "^4.16.2",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jest": "^21.3.2",
+    "eslint-plugin-mocha": "1.1.0",
+    "eslint-plugin-no-unsanitized": "^3.0.2",
+    "eslint-plugin-prefer-object-spread": "^1.2.1",
+    "eslint-plugin-react": "^7.0.1",
+    "expect.js": "^0.3.1"
+  },
+  "dependencies": {
+    "expr-eval": "^1.2.1",
+    "percentile": "^1.2.1"
+  }
+}

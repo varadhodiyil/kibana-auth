@@ -1,0 +1,399 @@
+.center-box {
+  position: absolute;
+  width: 324px;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+
+  -webkit-box-shadow: -1px 3px 39px -3px rgba(0, 0, 0, 0.54);
+  -moz-box-shadow: -1px 3px 39px -3px rgba(0, 0, 0, 0.54);
+  box-shadow: -1px 3px 39px -3px rgba(0, 0, 0, 0.54);
+}
+
+.input-label {
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.center-label {
+  text-align: center;
+  font-size: 12px;
+  display: block;
+}
+
+.input {
+  display: block;
+  width: 95%;
+  margin: auto auto 12px;
+  font-size: 18px;
+  border: 1px solid #999;
+  height: 32px;
+  text-indent: 8px;
+}
+
+.input:focus {
+  border: 1px solid #E91E63;
+}
+
+*:focus {
+  outline: none;
+}
+
+.button {
+  display: inline-block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  height: 40px;
+  text-decoration: none;
+  text-align: center;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  -webkit-transition: all 250ms cubic-bezier(0.34, 1.61, 0.7, 1);
+  transition: all 250ms cubic-bezier(0.34, 1.61, 0.7, 1);
+  white-space: nowrap;
+  max-width: 100%;
+  vertical-align: middle;
+  -webkit-box-shadow: 0 2px 2px -1px rgba(153, 153, 153, 0.3);
+  border-radius: 4px;
+  min-width: 112px;
+  color: #0079a5;
+  border: 1px solid #0079a5;
+  box-shadow: 0 2px 2px -1px rgba(50, 98, 116, 0.3);
+  background-color: #ffffff;
+  width: 100%;
+}
+
+.button:active {
+  background-color: #76ff03;
+}
+
+.button-caption {
+  padding: 8px;
+}
+
+
+$primary-color: green;  
+  
+  
+.hi {  
+    color: $primary-color;  
+    width: 100%;  
+    overflow: hidden;  
+}  
+
+
+    
+
+.logincontent {
+    background-image: url(https://keenthemes.com/metronic/preview/demo6/custom/pages/user/assets/media/bg/bg-3.jpg);
+    width: 100%;
+}
+    
+.kt-login__wrapper {
+    overflow: hidden;
+}
+.kt-login__container {
+    width: 430px;
+    margin: 0 auto;
+}
+.kt-login__title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+.kt-login__logo {
+    text-align: center;
+    margin: 0 auto 4rem auto;
+}
+
+.kt-login__signin {
+    display: block;
+}
+.kt-login__head {
+    margin-top: 1rem;
+}
+.kt-form {
+    margin: 4rem auto;
+}
+.input-group {
+    padding: 0;
+    margin: 0 auto;
+}
+.form-control {
+    height: 46px;
+    border: none;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-top: 1.5rem;
+    background: rgba(67, 34, 167, 0.4);
+    color: white;
+    width: 375px !important;
+}
+
+.kt-login__btn-primary {
+    height: 46px;
+    display: inline-block;
+    text-align: center;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    margin-top: 0.8rem;
+    border-radius: 60px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.4);
+    margin: 50px 125px;
+    width: 164px;
+}
+.kt-login__btn-secondary:hover {
+    color: #fff;
+    border-color: #fff;
+}
+.npcilogo {
+    width: 150px;
+}
+
+.testPlugin {
+    height: 100%;
+}
+
+
+.testPlugin .euiPage {
+  height: 100%;     
+}
+
+.testPlugin euiPageBody {
+  height: 100%;
+  
+}
+.testPlugin .logincontent {
+  height: 100%;
+}
+
+body {
+  margin: 0px;
+} 
+
+html, body { height: 100%; width: 100%; margin: 0; }
+
+.kt-login__logo {
+  text-align: center;
+  margin: 0 auto 4rem auto;
+  margin-top: 135px;
+}
+button#submit {
+  width: 252px;
+  margin: 50px 80px;
+}
+.page-header {
+  display: none;
+}
+
+.kt-login.kt-login--v3 .kt-login__wrapper .kt-login__container .kt-form .form-control {
+  height: 46px;
+  border: none;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  margin-top: 1.5rem;
+  background: rgba(235, 237, 242, 0.4);
+}
+
+.kt-login.kt-login--v3 .kt-login__wrapper .kt-login__container .kt-form .form-control {
+  height: 46px;
+  border: none;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  margin-top: 1.5rem;
+  background: rgba(235, 237, 242, 0.4);
+}
+.form-control {
+  display: block;
+  width: 100%;
+  height: 25px;
+  padding: 0.65rem 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ebedf2;
+  border-radius: 4px;
+  -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+
+input {
+  -webkit-writing-mode: horizontal-tb !important;
+  text-rendering: auto;
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+  -webkit-appearance: textfield;
+  background-color: white;
+  -webkit-rtl-ordering: logical;
+  cursor: text;
+  margin: 0em;
+  font: 400 13.3333px Arial;
+  padding: 1px 0px;
+  border-width: 2px;
+  border-style: inset;
+  border-color: initial;
+  border-image: initial;
+}
+
+
+input {
+  background-color: rgba(224, 225, 228, 0.4) !important;
+  border-radius: 5px !important;
+}
+
+
+h3#header-text {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #6c7293;
+}
+
+button#submit {
+  background: #5d78ff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.kt-login__account {
+  text-align: center;
+  color: #b1b0b3 !important;
+}
+.kt-link.kt-link--light {
+  color: #495057 !important;
+  text-decoration: none;
+  padding-left: 12px;
+}
+
+
+
+
+
+.multiselect-container{
+  width: 100%;
+  position: relative;
+  display: flex;  
+  flex-direction: row;
+  align-items: center;
+  overflow: visible;
+  vertical-align: middle;
+}
+.multiselect-label{
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0 5px
+}
+.multiselect-data-container{
+  position: relative;
+  overflow: visible;
+  vertical-align: middle;
+}
+.multiselect-button{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  cursor: pointer;
+}
+
+.multiselect-text{
+  border: 0;
+  padding: 3px 0;
+  width: 145px;
+}
+
+.multiselect-button input,
+.multiselect-button b{
+  pointer-events: none;
+}
+
+.multiselect-list{
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  max-height: 250px;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.15);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-clip: padding-box;
+  border-radius: 4px;
+  list-style-type: none;
+  overflow: auto;
+  z-index: 1000;
+}
+
+.multiselect-item-label{
+  display:block;
+  height: 100%;
+  border: 1px solid transparent;  
+  color: #006BB4 !important;
+}
+
+.multiselect-item-label--active{
+  border: 1px solid #b7b7b7;  
+}
+
+.multiselect-clear{
+  padding: 0 5px; 
+}
+
+.carret{
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 0;
+  vertical-align: middle;
+  border-top: 4px solid;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.multiselect-item-label--select-all{
+  font-weight: bold;
+  border-bottom: 1px solid #b7b7b7;
+  padding: 5px;
+}
+
+
+.multiselect-checkbox{
+  -webkit-appearance: checkbox;
+}

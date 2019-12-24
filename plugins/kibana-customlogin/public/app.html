@@ -1,0 +1,326 @@
+<!--<div class="center-box" ng-controller="kibana-customlogin" data-ng-init="init()">
+    <span class="title">Groups</span>
+        <ul>
+            <li ng-repeat="name in customgroups">
+                <span class="box-text">
+                    {{name}}
+                </span>
+            </li>
+        </ul>
+    
+</div>-->
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script> -->
+<div id="pageContainer" ng-controller="kibana-customlogin" data-ng-init="init()">
+
+    <div class="row">
+        <div class="col-xl-4">
+
+            <!--begin:: Widgets/Sale Reports-->
+            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            Group Management
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <button ng-click="showPopup('createGroupModal')"
+                            class="btn btn-sm btn-label-danger btn-bold addGroup">
+                            Add Group
+                        </button>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+
+                    <!--Begin::Tab Content-->
+                    <div class="tab-content">
+
+                        <!--begin::tab 1 content-->
+                        <div class="tab-pane active" id="kt_widget11_tab1_content">
+
+                            <!--begin::Widget 11-->
+                            <div class="kt-widget11">
+                                <div class="table-responsive">
+
+                                    <table class="table table-hover" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Group Name</th>
+                                                <th>Levels</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="groups in customgroups">
+                                                <td>{{groups._id}}</td>
+                                                <td>{{groups._source.levels.length}}</td>
+                                                <td>
+                                                    <button ng-click="showLevelPopUp($index)"
+                                                        class="btn btn-sm btn-label-success btn-bold">Manage
+                                                        Levels</button>
+                                                    <button ng-click="deleteGroup($index)"
+                                                        class="btn btn-sm btn-label-danger btn-bold">Delete</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-8">
+
+            <!--begin:: Widgets/Sale Reports-->
+            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            User Management
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+
+                    <!--Begin::Tab Content-->
+                    <div class="tab-content">
+
+                        <!--begin::tab 1 content-->
+                        <div class="tab-pane active" id="kt_widget11_tab1_content">
+
+                            <!--begin::Widget 11-->
+                            <div class="kt-widget11">
+                                <div class="table-responsive">
+
+                                    <table class="table table-hover" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>User Name</th>
+                                                <th>Group</th>
+                                                <th>Level</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="users in customusers">
+                                                <td>{{users._id}}</td>
+                                                <td>{{users._source.group ? users._source.group : "-"}}</td>
+                                                <td>{{users._source.level ? users._source.level: "-"}}</td>
+                                                <td>
+                                                    <button ng-click="linkUserPopup($index)"
+                                                        ng-if="!users._source.isLinked"
+                                                        class="btn btn-sm btn-label-success  btn-bold link">Link</button>
+                                                    <button ng-click="unlinkUserPopup($index)"
+                                                        ng-if="users._source.isLinked"
+                                                        class="btn btn-sm btn-label-danger  btn-bold unlink">Un-Link</button>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <form ng-submit="logout()">
+        <center><input class="euiButton euiButton--primary euiButton--small button" type="submit" value="LOGOUT" />
+        </center>
+    </form>
+
+
+    <!--begin::Modal-->
+    <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Group</h5>
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>-->
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Group Name:</label>
+                            <input type="text" class="form-control" id="createGroupNameInput">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="form-control-label">Description:</label>
+                            <textarea class="form-control" id="Description"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="closePopup('createGroupModal')" type="button"
+                        class="btn btn-sm btn-label-danger btn-bold close" data-dismiss="modal">Close</button>
+                    <button ng-click="createGroup()" type="button" class="btn btn-primary">Save Group</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--end::Modal-->
+
+
+
+    <!--begin::Modal-->
+    <div class="modal fade" id="manageLevelsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="levelLable">Manage {{CurrentGroupInLevel.name}}</h5>
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>-->
+                </div>
+                <div class="modal-body">
+                    <div class="form-group addLevelleft col-md-12" style="padding-left:10px; max-height: 25vh; overflow-y: auto;">
+                        <label for="recipient-name" class="form-control-label">Existing level:</label>
+                        <ul id="levelsContainer" class="row" ng-repeat="level in CurrentGroupInLevel.levels">
+                            <div class="row col-md-12">
+                                    <div class="col-md-3">{{level.name}} 
+                                        <button type="button" class="close" ng-click="removeLevelForGroup($index)" style="color:red" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                            </div>
+                            <div class="row col-md-12">
+                                <div class="col-md-12" ng-repeat="l in level.dashboard">
+                                    <div class="col-md-1"></div>
+                                    <div style="font-size: 14px" class="col-md-4">{{getDashBardName(l.dashboard)}}</div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-6">
+                                        <div style="font-size: 12px" ng-repeat=" _v in l.visualization">{{getVizualizationName(_v) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+
+                    <form class="col-md-12">
+                        <div class="row">
+                            <div class="form-group  col-md-12">
+                                <label for="recipient-name" class="form-control-label">Add new level:</label>
+                                <input type="text" style="width: 100% !important" class="form-control" id="addNewLevelInput">
+                            </div>
+                            <div class="scrollable-container">
+                            <div class="row" ng-repeat="_dash in dashboardForLevel">
+                                <div class="form-group col-md-6">
+                                    <label for ="dashboards"> Select Dashboard</label>
+                                    <select required class="form-control"
+                                    ng-model="_dash.dashboardsSel"
+                                    name="dashBoardSelected[]" ng-change="changeViz(_dash.dashboardsSel, $index)" style="width: 90% !important"
+                                    id="dashboardSelected" >
+                                    <option ng-repeat="v in dashboards" value="{{$index}}">
+                                        {{v.attributes.title}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="recipient-name" class="form-control-label">Select Visualization:</label>
+                                    <!-- <select type="text" required class="form-control"
+                                        name="VisualizationSelected[]" style="width: 90% !important"
+                                        id="VisualizationSelected" multiple>
+                                        <option ng-repeat="v in _visualizition" value="{{v.id}}">
+                                                {{v.attributes.title}}
+                                        
+                                        </option>
+                                    </select> -->
+
+                                    <div style="width: 200px;margin-top:1.5rem">
+                                        <div id="multiselect__container__{{$index}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="row col-md-12">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4 text-center">
+                                    <button class="btn btn-sm btn-primary" ng-click="addDashboard()" >Add New</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="form-group col-md-6">
+                                <button ng-click="addLevelToCurrentGroup()"
+                                    class="btn btn-sm btn-label-success btn-bold">Add Level</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="closePopup('manageLevelsModal')" type="button"
+                        class="btn btn-sm btn-label-danger btn-bold close" data-dismiss="modal">Close</button>
+                    <button ng-click="updateGroup()" type="button" class="btn btn-primary">Save Group</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--end::Modal-->
+
+
+
+    <!--begin::Modal-->
+    <div class="modal fade" id="linkUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="levelLable">Link User</h5>
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>-->
+                </div>
+                <div class="modal-body">
+
+
+                    <form>
+
+                        <div class="form-group addLevelleft">
+                            <label for="recipient-name" class="form-control-label">Select Group to assign:</label>
+                            <select ng-model="selectedGroupItem" ng-change="groupSelectChanged()" id="groupSelect">
+                                <option ng-repeat="groups in customgroups" value="{{$index}}">{{groups._id}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group addLevelleft">
+                            <label for="recipient-name" class="form-control-label">Select Level to assign:</label>
+                            <select ng-model="selectedLevelItem" id="levelSelect">
+                                <option ng-repeat="level in groupForShowingLevels.levels" value="{{level.name}}">
+                                    {{level.name}}</option>
+                            </select>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="closePopup('linkUserModal')" type="button"
+                        class="btn btn-sm btn-label-danger btn-bold close" data-dismiss="modal">Close</button>
+                    <button ng-click="linkUser()" type="button" class="btn btn-primary">Link User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--end::Modal-->
+
+
+</div>

@@ -1,0 +1,37 @@
+doctype html
+html(lang="EN")
+  head
+    title Authorization Required
+    style
+      include style/style.css
+      include style/mithril.css
+    script.
+      var kbnVersion = "#{kbnVersion}";
+      var basePath = "#{basePath}"
+  body
+    div.page-header
+      h2.header-text Kibana #{kbnVersion}
+    .testPlugin
+      .logincontent
+        .kt-login__wrapper
+          .kt-login__container
+            .kt-login__logo
+              a(href='#')
+                img.npcilogo(src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/NPCI-Logo.png/800px-NPCI-Logo.png')
+            .kt-login__signin
+              .kt-login__head
+                h3#header-text.login-box-header-text.kt-login__title REQUEST ACCESS
+              .kt-form
+                .input-group
+                  input#username.form-control(type='text', placeholder='Email', name='email', autocomplete='off', onkeypress='keydown(event);' autofocus)
+                .input-group
+                  input#password.form-control(type='password', placeholder='Password', name='password', onkeypress='keydown(event);')
+                .kt-login__actions
+                  button#submit(onclick='submit();').btn.btn-pill.kt-login__btn-primary Request Access 
+            .kt-login__account
+              span.kt-login__account-msg
+                | Already Have Access ?
+              a#kt_login_signup.kt-link.kt-link--light.kt-login__account-link(href="customlogin") Sign In
+    
+            script
+               include script/requestaccess.js 
