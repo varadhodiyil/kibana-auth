@@ -18,7 +18,7 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { element } from 'prop-types';
 import { injectI18n, FormattedMessage } from '@kbn/i18n/react';
 import { i18n } from '@kbn/i18n';
 import _ from 'lodash';
@@ -38,6 +38,7 @@ import {
   EuiConfirmModal,
   EuiCallOut,
 } from '@elastic/eui';
+import {getAvailableListing , isAdmin} from '../Auth';
 
 export const EMPTY_FILTER = '';
 const PAGE_SIZE_OPTIONS = [10, 20, 50];
@@ -83,10 +84,28 @@ class TableListViewUi extends React.Component {
 
   debouncedFetch = _.debounce(async (filter) => {
     const response = await this.props.findItems(filter);
-
+    const _data = response.hits;
+    var finalArr = [];
+    if( this.props.entityName === 'visualization' || this.props.entityName === 'dashboard' ) {
+      if(isAdmin() ){
+        finalArr = _data;
+      } else{
+      const resp = await getAvailableListing(this.props.entityName);
+      const authorized = resp.data.hits.hits;
+      _data.forEach((element, index, object) => {
+        const _idx =  authorized.findIndex(e => e.id === element.id);
+        if( _idx >= 0 ){
+          finalArr.push(element);
+        }
+      });
+    }
+    //   resp.data.hits.hits.forEach(element => {
+        
+    }
     if (!this._isMounted) {
       return;
     }
+    console.log(filter , this.state.filter, filter === this.state.filter, finalArr);
 
     // We need this check to handle the case where search results come back in a different
     // order than they were sent out. Only load results for the most recent search.
@@ -95,9 +114,9 @@ class TableListViewUi extends React.Component {
       this.setState({
         hasInitialFetchReturned: true,
         isFetchingItems: false,
-        items: (!filter ? _.sortBy(response.hits, 'title') : response.hits),
-        totalItems: response.total,
-        showLimitError: response.total > this.props.listingLimit,
+        items: (!filter ? _.sortBy(finalArr, 'title') : finalArr),
+        totalItems: finalArr.length,
+        showLimitError: finalArr.length > this.props.listingLimit,
       });
     }
   }, 300);
@@ -345,6 +364,7 @@ class TableListViewUi extends React.Component {
     };
 
     const columns = this.props.tableColumns.slice();
+    if(isAdmin()) {
     if (this.props.editItem) {
       columns.push({
         name: i18n.translate('kbn.table_list_view.listing.table.actionTitle', {
@@ -354,6 +374,7 @@ class TableListViewUi extends React.Component {
         actions
       });
     }
+  }
 
     const noItemsMessage = (
       <FormattedMessage
@@ -388,7 +409,7 @@ class TableListViewUi extends React.Component {
 
   renderListing() {
     let createButton;
-    if (this.props.createItem) {
+    if (this.props.createItem && isAdmin()) {
       createButton = (
         <EuiFlexItem grow={false}>
           <EuiButton

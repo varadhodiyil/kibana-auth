@@ -62,8 +62,10 @@ import 'ui/agg_types';
 import 'ui/timepicker';
 import { showAppRedirectNotification } from 'ui/notify';
 import 'leaflet';
-
+import {isAdmin , getCookie} from './Auth';
 routes.enable();
+
+
 
 
 routes
@@ -72,3 +74,48 @@ routes
   });
 
 uiModules.get('kibana').run(showAppRedirectNotification);
+
+
+$(document).ready(function(){
+  var user = getCookie('custom-login-username');
+  console.log(user , user === null);
+  if(user === null) {
+	  window.location.href = chrome.addBasePath('/customlogin');
+  }
+  if(user !== 'tuser1'){
+    $(".euiNavDrawer").css('visibility','hidden');
+  } else{
+    // window.location.href = '/app/kibana#/visualize';
+  }
+})
+  
+document.addEventListener("DOMContentLoaded", () => {
+  var user = getCookie('custom-login-username');
+  console.log(user);
+});
+
+const app = uiModules.get('kibana', [
+  'ngRoute',
+  'react',
+]);
+app.run( function($rootScope, $location) {
+  $rootScope.$watch(function() { 
+     return $location.path(); 
+   },
+   function(a){  
+     console.log('url has changed: ' + a);
+     if(!isAdmin()) {
+      if (!a.includes('/visualize') && !a.includes('/dashboard')) {
+        console.log(chrome.addBasePath('/dashboard'));
+        window.location.href = chrome.addBasePath('/app/kibana#/dashboard');
+        console.clear();
+        setTimeout(function(){
+          $(".kuiLocalMenu").css('visibility','hidden');
+          $('.dshStartScreen').css('visibility','hidden');
+        },1200);
+
+      }
+    }
+     // show loading div, etc...
+   });
+});

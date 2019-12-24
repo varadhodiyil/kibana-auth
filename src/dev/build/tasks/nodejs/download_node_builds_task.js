@@ -29,6 +29,7 @@ export const DownloadNodeBuildsTask = {
     await Promise.all(
       config.getNodePlatforms().map(async platform => {
         const { url, downloadPath, downloadName } = getNodeDownloadInfo(config, platform);
+        log.success(downloadPath);
         await download({
           log,
           url,

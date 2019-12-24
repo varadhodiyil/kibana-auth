@@ -59,6 +59,7 @@ import {
   getQuery,
   getFilters,
 } from '../selectors';
+import { getAvailableListing, isAdmin } from '../Auth';
 
 /**
  * Dashboard state manager handles connecting angular and redux state between the angular and react portions of the
@@ -67,6 +68,7 @@ import {
  * versa. They should be as decoupled as possible so updating the store won't affect bwc of urls.
  */
 export class DashboardStateManager {
+  getAuthViz = null;
   /**
    *
    * @param {SavedDashboard} savedDashboard
@@ -117,6 +119,7 @@ export class DashboardStateManager {
       this.changeListeners.forEach(listener => listener(status));
       this._pushAppStateChangesToStore();
     });
+    this.getAuthViz = null;
   }
 
   registerChangeListener(callback) {
@@ -236,6 +239,7 @@ export class DashboardStateManager {
     let dirty = false;
     if (!this._areStoreAndAppStatePanelsEqual()) {
       const panels = getPanels(store.getState());
+      // console.log(panels, "to");
       this.appState.panels = [];
       this.panelIndexPatternMapping = {};
       Object.values(panels).map(panel => {
@@ -480,7 +484,39 @@ export class DashboardStateManager {
   }
 
   getPanels() {
-    return this.appState.panels;
+    if (isAdmin()) {
+      return this.appState.panels;
+    }
+    console.log(Array.from(this.appState.panels));
+    $(".kbnTopNav__mainMenu").css('visibility','hidden');
+    $("#GlobalFilterGroup").css('visibility','hidden');
+    const getId = async () => {
+      this.getAuthViz = new Array();
+      const resp = await getAvailableListing('visualization');
+      const authorized = resp.data.hits.hits;
+      this.appState.panels.forEach(_ele =>{
+        const _idx =  authorized.findIndex(e => e.id === _ele.id);
+          if( _idx >= 0 ){
+            const hasEle = this.getAuthViz.findIndex(e => e.id === _ele.id);
+            if(hasEle <=0){
+            this.getAuthViz.push(_ele);
+            }
+          }
+      });
+      this.appState.panels = this.getAuthViz;
+    // this._handleStoreChanges();
+    this._pushAppStateChangesToStore();
+    this.saveState();
+    // this.appState.panels = [...new Set(this.getAuthViz.map(item => item.id))];
+    // console.log(this.appState.panels);
+      // this._pushFiltersToStore();
+  }
+  if(this.getAuthViz === null){
+    getId();
+    return [];
+  } else {
+    return this.getAuthViz;
+  }
   }
 
   updatePanel(panelIndex, panelAttributes) {
