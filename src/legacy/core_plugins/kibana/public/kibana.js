@@ -82,7 +82,7 @@ $(document).ready(function(){
   if(user === null) {
 	  window.location.href = chrome.addBasePath('/customlogin');
   }
-  if(user !== 'tuser1'){
+  if(!isAdmin()){
     $(".euiNavDrawer").css('visibility','hidden');
   } else{
     // window.location.href = '/app/kibana#/visualize';

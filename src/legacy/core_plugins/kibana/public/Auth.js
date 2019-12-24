@@ -67,12 +67,27 @@ export function getAvailableListing(_type) {
 
 }
 export function isAdmin() {
-	var user = getCookie();
-  if(user !== 'tuser1'){
-	// $(".euiNavDrawer").css('visibility','hidden');
-	return false;
-  } else{
-	// window.location.href = chrome.addBasePath('/app/kibana#/dashboard');
-	return true;
-  }
+	var _user = getCookie('kbn-customlogin');
+	let user = false;
+	if(_user)
+	{
+		const _type = _user.split("=");
+		if(_type[1] === 'true' || _type[1] === true) {
+			user = true;
+		}
+	}
+	console.log('Admin',user);
+	if(!user){
+		$(".euiNavDrawer").css('visibility','hidden');
+	} else {
+		$(".euiNavDrawer").css('visibility','visible');
+	}
+	return user;
+//   if(user !== 'tuser1'){
+// 	// $(".euiNavDrawer").css('visibility','hidden');
+// 	return false;
+//   } else{
+// 	// window.location.href = chrome.addBasePath('/app/kibana#/dashboard');
+// 	return true;
+//   }
 }

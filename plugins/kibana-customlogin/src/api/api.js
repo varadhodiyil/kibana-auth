@@ -463,9 +463,10 @@ module.exports = {
                                     if (TwoFactor.enabled()) {
                                         Logger.succeeded2FA(user.uid, source(request));
                                     }
-
-                                    h.state(cookieName(), Authentication.signToken(user.uid, user.groups), cookie());
-                                    h.state('kbn-customlogin',`user=${isAdmin}`, cookie());
+                                    const _cookie = cookie();
+                                    _cookie['domain'] = `.${request.info.hostname}`;
+                                    h.state(cookieName(), Authentication.signToken(user.uid, user.groups), _cookie);
+                                    h.state('kbn-customlogin',`user=${isAdmin}`, _cookie);
                                     resolve(h.response().code(200));
                                 } else {
                                     if (nonce != '') {

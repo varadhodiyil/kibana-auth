@@ -14,10 +14,9 @@
         "cookieName": "customlogin",
         "cookie": {
             "ttl": 1209600,
-            "path": "/",
             "encoding": "none",
             "isSecure": false,
-            "isHttpOnly": true,
+            "isHttpOnly": false,
             "clearInvalid": true,
             "strictHeader": true
         },
