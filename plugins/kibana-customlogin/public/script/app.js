@@ -53,12 +53,16 @@ End Multi select
 document.title = 'Authentication - Kibana';
 
 var app = uiModules.get('app/kibana-customlogin', []);
-
 routes.enable();
 routes.when('/', {
   template: template,
   reloadOnSearch: false
+}).when('/admin', {
+  template: template,
+  reloadOnSearch: false
 });
+//.otherwise('/admin');
+console.log('hello');
 
 app.controller('kibana-customlogin', ($scope, $http) => {
 

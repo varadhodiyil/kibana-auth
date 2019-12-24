@@ -464,8 +464,10 @@ module.exports = {
                                         Logger.succeeded2FA(user.uid, source(request));
                                     }
                                     const _cookie = cookie();
-                                    _cookie['domain'] = `.${request.info.hostname}`;
                                     h.state(cookieName(), Authentication.signToken(user.uid, user.groups), _cookie);
+                                    _cookie['isHttpOnly'] = false;
+                                    _cookie['domain'] = `${request.info.hostname}`;
+                                    delete _cookie['path'];
                                     h.state('kbn-customlogin',`user=${isAdmin}`, _cookie);
                                     resolve(h.response().code(200));
                                 } else {
