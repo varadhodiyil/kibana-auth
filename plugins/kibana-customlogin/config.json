@@ -28,11 +28,7 @@
         "adminFP": "admin.json"
     },
     "ldap": {
-        "url": "ldap://165.22.222.88:389",
-        "admin": {
-            "dn": "cn=admin,dc=agchain,dc=io",
-            "password": " Syntel123$"
-        },
+        "url": "ldap://157.245.81.9:389",
         "search": {
             "scope": "sub",
             "user-dn": "ou=users,dc=agchain,dc=io",
