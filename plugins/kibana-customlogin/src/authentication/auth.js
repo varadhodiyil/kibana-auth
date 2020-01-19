@@ -49,6 +49,9 @@ module.exports = {
                     Logger.customLog(`Er ${error} user ${user} `);
                     callback(error,user,isAdmin); 
                 }
+                else {
+                    callback(e,c);
+                }
             },true);
         } else{
             Logger.customLog(`Er ${error} user ${user} `);

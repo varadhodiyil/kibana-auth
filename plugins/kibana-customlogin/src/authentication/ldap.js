@@ -54,24 +54,27 @@ module.exports = {
         };
         //console.log("filter", new LDAP.filters.EqualityFilter({attribute: 'cn', value: username}))
 
-        client.search(search.dn, search.options, (err, result) => {
+        client.search(search.dn, search.options,  (err, result) => {
             let found = false;
             let uname = null;
             console.log("err",err)
             // console.log("result",result)
-            result.on('searchEntry', entry => {
+            result.on('searchEntry',async entry => {
                 found = true;
-                uname = {uid: username, groups: []};
+                
                 // console.log("entry",entry);
                 const _dn =`${entry.dn}`;
                 console.log(_dn, password);
                 // Verify api by binding to the LDAP server.
-                client.bind(_dn,password,err => {
+                await client.bind(_dn,password,err => {
                     // assert.ifError(err);
+                    uname = {uid: username, groups: []};
+                    found = false;
                     console.log('bind err',err);
                     if(!err){
-                        
                             callback(err, {uid: username, groups: []});
+                    } else {
+                        callback('Invalid Creds' , null);
                     }
                 });
                 // LDAP.createClient({url: Config.url})
@@ -100,9 +103,9 @@ module.exports = {
                 if (!found) {
                     callback('No user found', null);
                 } 
-                else {
-                    callback(err, uname);
-                }
+                // else {
+                //     callback(err, uname);
+                // }
             });
         });
     },
