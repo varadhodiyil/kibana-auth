@@ -37,19 +37,20 @@ module.exports = {
         Storage.authenticate(username, password, (e , c) => {
             user = c;
             error = e;
-            
+            if(!e) {
+            let _storage = require('./file');
+            _storage.authenticate(username,password,(e,c) => {
+                // Logger.customLog(c);
+                if(!e){
+                    isAdmin = true;
+                    user = c;
+                    error = e;
+                }
+            },true);
+        }
+            Logger.customLog(`Er ${error} user ${user} `);
+            callback(error,user,isAdmin); 
         });
-        let _storage = require('./file');
-        _storage.authenticate(username,password,(e,c) => {
-            // Logger.customLog(c);
-            if(!e){
-                isAdmin = true;
-                user = c;
-                error = e;
-            }
-        },true);
-        // Logger.customLog(ret);
-        callback(error,user,isAdmin);
     },
 
     /**

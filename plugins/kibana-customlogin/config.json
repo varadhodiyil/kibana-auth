@@ -1,5 +1,5 @@
 {
-    "storage": "file",
+    "storage": "ldap",
     "two-factor": {
         "enabled": false,
         "length": 16
@@ -28,11 +28,11 @@
         "adminFP": "admin.json"
     },
     "ldap": {
-        "url": "ldap://157.245.81.9:389",
+        "url": "ldap://64.227.10.16:389",
         "search": {
             "scope": "sub",
-            "user-dn": "ou=users,dc=agchain,dc=io",
-            "group-dn": "ou=groups,dc=agchain,dc=io"
+            "user-dn": "dc=npci,dc=xyz",
+            "group-dn": "ou=groups,dc=npci,dc=xyz"
         }
     },
     "mongodb": {

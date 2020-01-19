@@ -450,6 +450,7 @@ module.exports = {
                         Logger.customLog(user);
                         Logger.customLog(isAdmin);
                         if (err || !user) {
+                            console.log('Failde');
                             Logger.failedAuthentication(username, source(request));
                             resolve(h.response().code(401));
                         } else {
@@ -457,7 +458,7 @@ module.exports = {
                             if (!TwoFactor.enabled() || nonce === '') {
                                 Logger.succeededAuthentication(user.uid, source(request));
                             }
-
+                            if(TwoFactor.enabled()){
                             TwoFactor.verify(user.uid, nonce, (success, secret) => {
                                 if (success) {
                                     if (TwoFactor.enabled()) {
@@ -485,6 +486,16 @@ module.exports = {
                                     }
                                 }
                             });
+                        } else{
+                            console.log('setting token');
+                            const _cookie = cookie();
+                                    h.state(cookieName(), Authentication.signToken(user.uid, user.groups), _cookie);
+                                    _cookie['isHttpOnly'] = false;
+                                    _cookie['domain'] = `${request.info.hostname}`;
+                                    delete _cookie['path'];
+                                    h.state('kbn-customlogin',`user=${isAdmin}`, _cookie);
+                                    resolve(h.response().code(200));
+                        }
                         }
                     });
                 });

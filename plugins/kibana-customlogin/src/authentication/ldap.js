@@ -49,28 +49,43 @@ module.exports = {
             dn: Config.search["user-dn"],
             options: {
                 scope: Config.search.scope,
-                filter: new LDAP.filters.EqualityFilter({attribute: 'uid', value: username})
+                filter: new LDAP.filters.EqualityFilter({attribute: 'cn', value: username})
             }
         };
-        console.log("filter", new LDAP.filters.EqualityFilter({attribute: 'uid', value: username}))
+        //console.log("filter", new LDAP.filters.EqualityFilter({attribute: 'cn', value: username}))
 
         client.search(search.dn, search.options, (err, result) => {
             let found = false;
+            let uname = null;
             console.log("err",err)
-            console.log("result",result)
+            // console.log("result",result)
             result.on('searchEntry', entry => {
                 found = true;
 
-                console.log("entry",entry)
+                // console.log("entry",entry);
+                const _dn =`${entry.dn}`;
+                console.log(_dn, password);
                 // Verify api by binding to the LDAP server.
-                LDAP.createClient({url: Config.url})
-                    .bind(entry.dn, password, err => {
-                        console.log("err second",err)
-                        member(entry.object.uid, groups => {
-                            callback(err, {uid: entry.object.uid, groups: groups});
-                        });
+                client.bind(_dn,password,err => {
+                    // assert.ifError(err);
+                    console.log('bind err',err);
+                    if(!err){
+                        uname = {uid: username, groups: []};
+                            callback(err, {uid: username, groups: []});
+                    }
+                });
+                // LDAP.createClient({url: Config.url})
+                //     .bind(_dn, password, err => {
+                //         console.log("err second",err);
+                //         console.log(entry.object.cname);
+                //         if(!err){
+                //             callback(err, {uid: entry.object.uid, groups: []});
+                //         }
+                //         // member(entry.object.uid, groups => {
+                //         //     callback(err, {uid: entry.object.uid, groups: groups});
+                //         // });
 
-                    });
+                //     });
             }); 
             result.on('*', function() {
                 console.log("on evrything: ", this.event);
@@ -80,10 +95,13 @@ module.exports = {
             result.on('end', function(result) {
             //     console.log('status: ' + result.status);
             // });
-                console.log("found", found)
-                if (!found) {
-                    callback(new LDAP.NoSuchObjectError());
-                }
+                console.log("found", found);
+                console.log('uname',uname);
+                // if (!found) {
+                //     callback('No user found', null);
+                // } else {
+                //     callback(err, uname);
+                // }
             });
         });
     },
@@ -93,6 +111,8 @@ module.exports = {
     },
 
     // ldap server does not implement 2fa storage, use on-disk.
-    getSecret: File.getSecret,
+    getSecret: function (username, callback) {
+        callback(true);
+    },
     setSecret: File.setSecret,
 };
