@@ -580,17 +580,19 @@ module.exports = {
                                  _data.hits.hits.forEach(function(ele) {
                                      Logger.customLog(ele._source.levels);
                                      ele._source.levels.forEach(function(_ele){
-                                         _ele.dashboard.forEach(d => {
-                                            if(d.dashboard){
-                                                Logger.customLog(d.dashboard);
-                                                dashboard.push({"id": d.dashboard});
-                                            }
-                                            if(d.visualization){
-                                                d.visualization.forEach(function(___id){
-                                                   levels.push({"id": ___id});
-                                                });
-                                            }
-                                         });
+                                         if(_ele != undefined) {
+                                            _ele.dashboard.forEach(d => {
+                                                if(d.dashboard){
+                                                    Logger.customLog(d.dashboard);
+                                                    dashboard.push({"id": d.dashboard});
+                                                }
+                                                if(d.visualization){
+                                                    d.visualization.forEach(function(___id){
+                                                    levels.push({"id": ___id});
+                                                    });
+                                                }
+                                            });
+                                        }
                                          
                                          
                                      })
