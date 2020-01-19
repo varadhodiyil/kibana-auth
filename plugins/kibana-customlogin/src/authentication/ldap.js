@@ -61,7 +61,7 @@ module.exports = {
             // console.log("result",result)
             result.on('searchEntry', entry => {
                 found = true;
-
+                uname = {uid: username, groups: []};
                 // console.log("entry",entry);
                 const _dn =`${entry.dn}`;
                 console.log(_dn, password);
@@ -70,7 +70,7 @@ module.exports = {
                     // assert.ifError(err);
                     console.log('bind err',err);
                     if(!err){
-                        uname = {uid: username, groups: []};
+                        
                             callback(err, {uid: username, groups: []});
                     }
                 });
@@ -97,11 +97,12 @@ module.exports = {
             // });
                 console.log("found", found);
                 console.log('uname',uname);
-                // if (!found) {
-                //     callback('No user found', null);
-                // } else {
-                //     callback(err, uname);
-                // }
+                if (!found) {
+                    callback('No user found', null);
+                } 
+                else {
+                    callback(err, uname);
+                }
             });
         });
     },

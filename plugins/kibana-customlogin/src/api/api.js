@@ -565,6 +565,7 @@ module.exports = {
                         {
                             var group = data.hits.hits[0]._source.group;
                             Logger.customLog(data.hits.hits[0]._source.group)
+                            if(group != undefined || group != null) {
                             esclient.search({
                                 index:"customgroups",
                                 body:{
@@ -611,6 +612,9 @@ module.exports = {
                         data.hits.hits = [];
                         resolve({ data: data });
                         }
+                    } else {
+                        resolve({ data: [] });
+                    }
                     });            
                 })
             }

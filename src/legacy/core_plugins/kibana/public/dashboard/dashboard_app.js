@@ -563,6 +563,7 @@ $(document).ready(function(){
       // $('.dshStartScreen').css('visibility','hidden');
       $(".kbnTopNav__mainMenu").css('visibility','hidden');
       $("#GlobalFilterGroup").css('visibility','hidden');
+      $(".euiEmptyPrompt .euiButton").css('visibility','hidden');
     },1200);
   }
 });
