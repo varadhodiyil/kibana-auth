@@ -53,6 +53,7 @@ module.exports = {
             }
         };
         //console.log("filter", new LDAP.filters.EqualityFilter({attribute: 'cn', value: username}))
+        username = username.replace("."," ");
         const _dn = `cn=${username},${Config.search["user-dn"]}`;
         console.log(_dn);
         client.bind(_dn,password,err => {
