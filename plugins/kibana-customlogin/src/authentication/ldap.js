@@ -53,61 +53,78 @@ module.exports = {
             }
         };
         //console.log("filter", new LDAP.filters.EqualityFilter({attribute: 'cn', value: username}))
-
-        client.search(search.dn, search.options,  (err, result) => {
-            let found = false;
-            let uname = null;
-            console.log("err",err)
-            // console.log("result",result)
-            result.on('searchEntry',async entry => {
-                found = true;
+        const _dn = `cn=${username},${Config.search["user-dn"]}`;
+        console.log(_dn);
+        client.bind(_dn,password,err => {
+            // assert.ifError(err);
+            console.log('err',err);
+            if(!err){
+                callback(err, {uid: username, groups: []});
+            }else{
+                callback('Invalid Creds' , null);
+            }
+            // client.unbind(e=>{
+            //     if(err){
+            //         callback(err, {uid: username, groups: []});
+            //     }else{
+            //         callback('Invalid Creds' , null);
+            //     }
+            // });
+        });
+        // client.search(search.dn, search.options,  (err, result) => {
+        //     let found = false;
+        //     let uname = null;
+        //     console.log("err",err)
+        //     // console.log("result",result)
+        //     result.on('searchEntry',async entry => {
+        //         found = true;
                 
-                // console.log("entry",entry);
-                const _dn =`${entry.dn}`;
-                console.log(_dn, password);
-                // Verify api by binding to the LDAP server.
-                await client.bind(_dn,password,err => {
-                    // assert.ifError(err);
-                    uname = {uid: username, groups: []};
-                    found = false;
-                    console.log('bind err',err);
-                    if(!err){
-                            callback(err, {uid: username, groups: []});
-                    } else {
-                        callback('Invalid Creds' , null);
-                    }
-                });
-                // LDAP.createClient({url: Config.url})
-                //     .bind(_dn, password, err => {
-                //         console.log("err second",err);
-                //         console.log(entry.object.cname);
-                //         if(!err){
-                //             callback(err, {uid: entry.object.uid, groups: []});
-                //         }
-                //         // member(entry.object.uid, groups => {
-                //         //     callback(err, {uid: entry.object.uid, groups: groups});
-                //         // });
+        //         // console.log("entry",entry);
+        //         const _dn =`${entry.dn}`;
+        //         console.log(_dn, password);
+        //         // Verify api by binding to the LDAP server.
+        //         await client.bind(_dn,password,err => {
+        //             // assert.ifError(err);
+        //             uname = {uid: username, groups: []};
+        //             found = false;
+        //             console.log('bind err',err);
+        //             if(!err){
+        //                     callback(err, {uid: username, groups: []});
+        //             } else {
+        //                 callback('Invalid Creds' , null);
+        //             }
+        //         });
+        //         // LDAP.createClient({url: Config.url})
+        //         //     .bind(_dn, password, err => {
+        //         //         console.log("err second",err);
+        //         //         console.log(entry.object.cname);
+        //         //         if(!err){
+        //         //             callback(err, {uid: entry.object.uid, groups: []});
+        //         //         }
+        //         //         // member(entry.object.uid, groups => {
+        //         //         //     callback(err, {uid: entry.object.uid, groups: groups});
+        //         //         // });
 
-                //     });
-            }); 
-            result.on('*', function() {
-                console.log("on evrything: ", this.event);
-              });
+        //         //     });
+        //     }); 
+        //     result.on('*', function() {
+        //         console.log("on evrything: ", this.event);
+        //       });
               
 
-            result.on('end', function(result) {
-            //     console.log('status: ' + result.status);
-            // });
-                console.log("found", found);
-                console.log('uname',uname);
-                if (!found) {
-                    callback('No user found', null);
-                } 
-                // else {
-                //     callback(err, uname);
-                // }
-            });
-        });
+        //     result.on('end', function(result) {
+        //     //     console.log('status: ' + result.status);
+        //     // });
+        //         console.log("found", found);
+        //         console.log('uname',uname);
+        //         if (!found) {
+        //             callback('No user found', null);
+        //         } 
+        //         // else {
+        //         //     callback(err, uname);
+        //         // }
+        //     });
+        // });
     },
 
     create: function (username, password, callback) {

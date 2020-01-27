@@ -7,15 +7,16 @@ const userPrincipalName = "admin"; // Username
 const password = "tango"; // User password
 const adSuffix = "dc=npci,dc=xyz"; // test.com
 
-const dn =`cn=${userPrincipalName},${adSuffix}`
+// const dn =`cn=${userPrincipalName},${adSuffix}`;
+const dn = 'cn=admin,dc=npci,dc=xyz';
 // Create client and bind to AD
 const client = ldap.createClient({
     url: `ldap://${server}`
 });
 
-client.bind(dn,password,err => {
-    assert.ifError(err);
-});
+// client.bind(dn,password,err => {
+//     assert.ifError(err);
+// });
 
 // Search AD for user
 const searchOptions = {
@@ -23,27 +24,39 @@ const searchOptions = {
     filter: `(cn=${userPrincipalName})`
 };
 
-client.search(adSuffix,searchOptions,(err,res) => {
-    assert.ifError(err);
+client.bind(dn,password,err => {
+                // assert.ifError(err);
+                if(err){
+                    console.log('failed');
+                }else{
+                    console.log('Connected');
+                }
+                client.unbind(e=>{
 
-    res.on('searchEntry', entry => {
-        console.log('search entry');
-        console.log(entry.object);
-        client.bind(entry.object.dn,password,err => {
-            assert.ifError(err);
-        });
-    });
-    res.on('searchReference', referral => {
-        console.log('referral: ' + referral.uris.join());
-    });
-    res.on('error', err => {
-        console.error('error: ' + err.message);
-    });
-    res.on('end', result => {
-        console.log('end');
-        // console.log(result);
-    });
-});
+                });
+            });
+
+// client.search(adSuffix,searchOptions,(err,res) => {
+//     assert.ifError(err);
+
+//     res.on('searchEntry', entry => {
+//         console.log('search entry');
+//         console.log(entry.object);
+//         client.bind(entry.object.dn,password,err => {
+//             assert.ifError(err);
+//         });
+//     });
+//     res.on('searchReference', referral => {
+//         console.log('referral: ' + referral.uris.join());
+//     });
+//     res.on('error', err => {
+//         console.error('error: ' + err.message);
+//     });
+//     res.on('end', result => {
+//         console.log('end');
+//         // console.log(result);
+//     });
+// });
 
 // Wrap up
 client.unbind( err => {
