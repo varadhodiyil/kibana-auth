@@ -7,7 +7,7 @@
 const LDAP = require('ldapjs');
 const Config = require('../config').load('ldap');
 const File = require('./file');
-const client = LDAP.createClient({url: Config.url});
+
 
 // client.bind(Config.admin.dn, Config.admin.password, err => {
 //     if (err)
@@ -28,7 +28,7 @@ function member(id, callback) {
             })
         }
     };
-
+    const client = LDAP.createClient({url: Config.url});
     client.search(search.dn, search.options, (err, result) => {
         let member = [];
 
@@ -56,21 +56,23 @@ module.exports = {
         username = username.replace("."," ");
         const _dn = `cn=${username},${Config.search["user-dn"]}`;
         console.log(_dn);
-        client.bind(_dn,password,err => {
+        const _client = LDAP.createClient({url: Config.url});
+        _client.bind(_dn,password,err => {
             // assert.ifError(err);
             console.log('err',err);
+            // if(!err){
+            //     callback(err, {uid: username, groups: []});
+            // }else{
+            //     callback('Invalid Creds' , null);
+            // }
+            _client.unbind(e=>{
+                console.log('Unbound');
+            });
             if(!err){
                 callback(err, {uid: username, groups: []});
             }else{
                 callback('Invalid Creds' , null);
             }
-            // client.unbind(e=>{
-            //     if(err){
-            //         callback(err, {uid: username, groups: []});
-            //     }else{
-            //         callback('Invalid Creds' , null);
-            //     }
-            // });
         });
         // client.search(search.dn, search.options,  (err, result) => {
         //     let found = false;
