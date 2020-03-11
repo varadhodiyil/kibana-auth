@@ -39,6 +39,7 @@ import { SavedObjectRegistryProvider } from 'ui/saved_objects/saved_object_regis
 import { DashboardListing, EMPTY_FILTER } from './listing/dashboard_listing';
 import { uiModules } from 'ui/modules';
 import 'ui/capabilities/route_setup';
+import {getAvailableListing, isAdmin} from '../Auth';
 
 const app = uiModules.get('app/dashboard', [
   'ngRoute',
@@ -137,7 +138,13 @@ uiRoutes
     controller: createNewDashboardCtrl,
     requireUICapability: 'dashboard.createNew',
     resolve: {
-      dash: function (savedDashboards, redirectWhenMissing) {
+      dash: function (savedDashboards, redirectWhenMissing,kbnUrl) {
+        console.log(isAdmin())
+        if(!isAdmin()){
+          toastNotifications.addDanger('Redirecting to user Dashboard');
+          kbnUrl.redirect(DashboardConstants.LANDING_PAGE_PATH);
+        }
+        console.log(savedDashboards.get())
         return savedDashboards.get()
           .catch(redirectWhenMissing({
             'dashboard': DashboardConstants.LANDING_PAGE_PATH
@@ -151,9 +158,21 @@ uiRoutes
     resolve: {
       dash: function (savedDashboards, $route, redirectWhenMissing, kbnUrl, AppState) {
         const id = $route.current.params.id;
-
+        console.log(id);
+        // getAvailableListing('dashboard').then(function(resp){
+        //   // const authorized = resp.data.hits.hits;
+        //   // const idx = authorized.findIndex(e => e.id === id);
+        //   // console.log(idx);
+        //   // if(idx === -1){
+        //   //    kbnUrl.redirect(DashboardConstants.LANDING_PAGE_PATH);
+        //   // }
+        // });
+        if(!isAdmin()){
+          $(".kbnTopNav__mainMenu").css('visibility','hidden');
+        }
         return savedDashboards.get(id)
           .then((savedDashboard) => {
+            console.log(savedDashboard);
             recentlyAccessed.add(savedDashboard.getFullPath(), savedDashboard.title, id);
             return savedDashboard;
           })

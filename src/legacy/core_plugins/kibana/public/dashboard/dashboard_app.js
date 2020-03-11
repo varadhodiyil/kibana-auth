@@ -61,6 +61,10 @@ import { DashboardViewportProvider } from './viewport/dashboard_viewport_provide
 import { data } from 'plugins/data';
 data.search.loadLegacyDirectives();
 
+import {isAdmin} from '../Auth';
+import { func } from 'prop-types';
+
+
 const app = uiModules.get('app/dashboard', [
   'elasticsearch',
   'ngRoute',
@@ -120,7 +124,7 @@ app.directive('dashboardApp', function ($injector) {
           filterActions.addFilter(field, value, operator, index, dashboardStateManager.getAppState(), filterManager);
         }
       });
-
+      $scope.isADMIN = isAdmin();
       $scope.getDashboardState = () => dashboardStateManager;
       $scope.appState = dashboardStateManager.getAppState();
       $scope.refreshInterval = timefilter.getRefreshInterval();
@@ -145,6 +149,8 @@ app.directive('dashboardApp', function ($injector) {
           refreshInterval: timefilter.getRefreshInterval(),
         };
         $scope.panels = dashboardStateManager.getPanels();
+        // $scope.panels = [];
+        // console.log($scope.panels);
         $scope.screenTitle = dashboardStateManager.getTitle();
 
         const panelIndexPatterns = dashboardStateManager.getPanelIndexPatterns();
@@ -543,4 +549,21 @@ app.directive('dashboardApp', function ($injector) {
       }
     }
   };
+});
+
+
+
+$(document).ready(function(){
+  console.log('admin test',);
+  // $(".kuiLocalMenu").css('visibility','hidden');
+      // $('.dshStartScreen').css('visibility','hidden');
+  if(!isAdmin())  {
+    setTimeout(function(){
+      // $(".kuiLocalMenu").css('visibility','hidden');
+      // $('.dshStartScreen').css('visibility','hidden');
+      $(".kbnTopNav__mainMenu").css('visibility','hidden');
+      $("#GlobalFilterGroup").css('visibility','hidden');
+      $(".euiEmptyPrompt .euiButton").css('visibility','hidden');
+    },1200);
+  }
 });

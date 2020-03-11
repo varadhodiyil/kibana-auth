@@ -30,8 +30,9 @@ export const VerifyExistingNodeBuildsTask = {
     await Promise.all(
       config.getNodePlatforms().map(async (platform) => {
         const { downloadPath, downloadName } = getNodeDownloadInfo(config, platform);
-
+        
         const sha256 = await getFileHash(downloadPath, 'sha256');
+        log.info(sha256,downloadName,shasums[downloadName])
         if (sha256 !== shasums[downloadName]) {
           throw new Error(
             `Download at ${downloadPath} does not match expected checksum ${sha256}`
