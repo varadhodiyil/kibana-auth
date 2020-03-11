@@ -1,0 +1,30 @@
+{
+  "name": "kibana-customlogin",
+  "version": "1.2.1",
+  "description": "Prevents unauthorized access to kbn dashboards.",
+  "license": "MIT",
+  "main": "index.js",
+  "kibana": {
+    "version": "7.2.2"
+  },
+  "dependencies": {
+    "crypto-hash": "^1.2.2",
+    "elasticsearch": "^16.3.0",
+    "express": "^4.16.2",
+    "express-http-proxy": "^1.0.7",
+    "hapi": "^17.5.3",
+    "hapi-auth-basic": "^4.2.0",
+    "hapi-auth-jwt2": "^8.3.0",
+    "jsonwebtoken": "^8.1.0",
+    "ldapjs": "^1.0.1",
+    "mongoose": "^5.4.13",
+    "pug": "^2.0.3",
+    "qr-image": "^3.2.0",
+    "request": "^2.83.0",
+    "speakeasy": "^2.0.0",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}

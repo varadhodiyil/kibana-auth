@@ -1,0 +1,41 @@
+{
+    "storage": "ldap",
+    "two-factor": {
+        "enabled": false,
+        "length": 16
+    },
+    "proxy": {
+        "enabled": false,
+        "port": 7575,
+        "remote": "localhost:5601"
+    }, 
+    "authentication": {
+        "kbnVersion": "7.2.2",
+        "cookieName": "customlogin",
+        "cookie": {
+            "ttl": 1209600,
+            "path": "/",
+            "encoding": "none",
+            "isSecure": false,
+            "isHttpOnly": true,
+            "clearInvalid": true,
+            "strictHeader": true
+        },
+        "secret": "QCmadcDjFm/2rZYpNUgGXL5kOBfHE3/msoTnu3kEctF2vQvMxGYDmYzE6g9klWuLT0OEXAbASpVkYco+9nIauw=="
+    },
+    "file": {
+        "filename": "users.json",
+        "adminFP": "admin.json"
+    },
+    "ldap": {
+        "url": "ldap://64.227.10.16:389",
+        "search": {
+            "scope": "sub",
+            "user-dn": "dc=npci,dc=xyz",
+            "group-dn": "ou=groups,dc=npci,dc=xyz"
+        }
+    },
+    "mongodb": {
+        "remote": "mongodb://localhost/plugin"
+    }
+}
