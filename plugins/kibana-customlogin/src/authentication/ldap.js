@@ -55,11 +55,11 @@ module.exports = {
         //console.log("filter", new LDAP.filters.EqualityFilter({attribute: 'cn', value: username}))
         username = username.replace("."," ");
         const _dn = `cn=${username},${Config.search["user-dn"]}`;
-        console.log(_dn);
+        // console.log(_dn);
         const _client = LDAP.createClient({url: Config.url});
         _client.bind(_dn,password,err => {
             // assert.ifError(err);
-            console.log('err',err);
+            // console.log('err',err);
             // if(!err){
             //     callback(err, {uid: username, groups: []});
             // }else{

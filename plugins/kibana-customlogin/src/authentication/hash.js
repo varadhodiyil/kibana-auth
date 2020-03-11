@@ -7,8 +7,9 @@
 // const argon2 = require('argon2-ffi').argon2i;
 // const argon2 = require('argon2');
 const crypto = require('crypto');
-const options = {timeCost: 4, memoryCost: 1 << 14, parallelism: 1, hashLength: 64};
-const {sha256} = require('crypto-hash');
+const options = { timeCost: 4, memoryCost: 1 << 14, parallelism: 1, hashLength: 64 };
+const { sha256 } = require('crypto-hash');
+import {customLog} from '../logger';
 module.exports = {
 
     /**
@@ -24,7 +25,7 @@ module.exports = {
             // }).catch(err => {
             //     throw err;
             // });
-            sha256(plaintext,options).then(hash=>{
+            sha256(plaintext, options).then(hash => {
                 callback(hash);
             });
             callback(true);
@@ -46,6 +47,15 @@ module.exports = {
         // ).catch(err => {
         //     throw err;
         // });
-        callback(true)
+        (async () => {
+            const plainTextHash = await sha256(plaintext);
+        customLog(`Check ${plaintext} , ${hash} , ${plainTextHash}`);
+        if(plainTextHash === hash ){
+            callback(true);
+        } else{
+            callback(false);
+        }
+        })();
+        
     }
 };
